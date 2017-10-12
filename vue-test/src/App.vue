@@ -1,8 +1,8 @@
 <template>
   <div >
-    <p v-text="hello"></p>
-    <p v-text="hello"></p>
-    {{ status ? 'success' : 'fail' }}
+    <ul>
+      <li v-for="(value, key) in objList" >{{ key + value }}</li>
+    </ul>
   </div>
 </template>
 
@@ -11,8 +11,22 @@ export default {
   data () {
     return {
       hello: '<span><img>world</span>',
-      num: 1,
-      status: true
+      list: [
+        {
+          name: 'apple',
+          price: 34
+        },
+        {
+          name: 'banana',
+          price: 56
+        }
+      ],
+      objList: {
+        name: 'apple',
+        price: 34,
+        color: 'red',
+        weight: 14
+      }
     }
   }
 }
