@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import componentA from './components/a'
 export default {
   data () {
     return {
