@@ -1,9 +1,19 @@
 <template>
-  <div class="header">我是header</div>
+  <div class="content-wrapper">
+    <div class="bulletin-wrapper">
+      <div class="avatar"></div>
+    </div>
+  </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: {
+      seller: {
+        type: Object
+      }
+    }
+  }
 </script>
 
 <style scoped>
