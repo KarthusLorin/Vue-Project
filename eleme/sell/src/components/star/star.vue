@@ -1,6 +1,6 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="{itemClass, index} in itemClasses" :class="itemClass" :key="index" class="star-item"></span>
+    <span v-for="(itemClass,index) in itemClasses" :class="itemClass" :key="index" class="star-item"></span>
   </div>
 </template>
 
@@ -44,9 +44,10 @@
     }
   }
 </script>
-@import "../../common/stylus/mixin.styl"
 
 <style lang="stylus" rel="stylesheet">
+  @import "../../common/stylus/mixin.styl"
+
   .star
     .star-item
       display inline-block
