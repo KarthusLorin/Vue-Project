@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>vue-test</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="/dist/build.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Vuee实例</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div @click="handleClick">
+            {{message}}
+        </div>
+        <item></item>
+    </div>
+
+    <script>
+
+        // vue中每个组件都是一个实例
+        // vue的项目是由多个vue组件组成的，同时，vue的项目也是由多个vue实例组成的
+        Vue.component('item', {
+            template: '<div>hello item</div>'
+        })
+
+        // vm是vue的一个实例，用于接管页面上一部分dom的渲染
+        // vm不仅仅是一个实例，而且还是一个根实例
+        var vm = new Vue({
+            // el代表实例接管的dom的最外层标签
+            el: '#root',
+            // 可以通过vm.$data访问data
+            // 凡是带有$的属性都是vue的实例属性或方法
+            data: {
+                message: 'hello world'
+            },
+            methods: {
+                handleClick: function () {
+                    alert('hello')
+                }
+            }
+        })
+    </script>
+</body>
 </html>
