@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例生命周期</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+    // 生命周期函数就是vue实例在某一个时间点会自动执行的函数
+    var vm = new Vue({
+        el: '#app',
+        template: '<div>{{test}}</div>',
+        data: {
+            test: 'hello world'
+        },
+        // 组件实例刚被创建，组件属性计算前，如data属性等
+        beforeCreate: function () {
+            console.log("beforeCreate");
+        },
+        // 组件实例创建完成，属性已绑定，但DOM还未生成
+        created: function () {
+            console.log('created');
+        },
+        // 模板编译/挂载之前
+        beforeMount: function () {
+            console.log(this.$el);  // <div id="app"></div>
+            console.log('beforeMount');
+        },
+        // 模板编译/挂载之后
+        mounted: function () {
+            console.log(this.$el);  // <div>hello world</div>
+            console.log('mounted')
+        },
+        // 组件更新之前
+        beforeUpdate: function () {
+            console.log('beforeUpdate');
+        },
+        // 组件更新之后
+        updated: function () {
+            console.log('updated');
+        },
+        // 组件销毁前
+        beforeDestroy: function () {
+            console.log('beforeDestroy');
+        },
+        // 组件销毁后
+        destroyed: function () {
+            console.log('destroyed');
+        }
+    })
+</script>
+</body>
+</html>
