@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{fullName}}
+    {{age}}
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            firstName: "Dell",
+            lastName: "Lee",
+            age: 28
+        },
+        /*
+        计算属性
+        注意：计算属性内置缓存，只有当依赖的属性（如firstName或者lastName）进行改变，fullName才会进行重新计算
+        当age进行改变的时候，fullName不会进行计算
+        测试方法：
+        当打开页面时，fullName被调用一次，输出计"计算了一次"
+        而在控制台输入vm.age = 27的时候，fullName没有被调用，没有输出"计算了一次"
+        最后，在控制台输入vm.firstName = "Allen"的时候，fullName被调用，输出"计算了一次"
+         */
+
+        /*
+        为什么计算属性会有这种缓存效果？
+        因为vue具有响应式系统，响应式系统会在一开始的时候就收集依赖
+        比如：本例中，fullName依赖于firstName和lastName，当firstName或lastName进行改变时，系统会通知fullName进行改变
+        而fullName不依赖于age，所以不会随age进行改变
+        vue响应式系统的核心在于Object.defineProperty(obj, prop, descriptor)这个方法
+         */
+        computed: {
+            fullName: function () {
+                console.log("计算了一次")
+                return this.firstName + " " + this.lastName
+            }
+        }
+    })
+</script>
+</body>
+</html>

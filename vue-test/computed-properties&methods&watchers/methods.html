@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>方法</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{fullName()}}
+    {{age}}
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            firstName: "Dell",
+            lastName: "Lee",
+            age: 28
+        },
+        /*
+        methods可以实现computed同样的效果，但是methods没有缓存的机制
+        因为vue只会对属性进行响应式系统依赖收集
+        当methods和computed实现同样一种效果时，优先使用computed，因为computed的性能更好
+         */
+        methods: {
+            fullName: function () {
+                console.log("计算了一次");
+                return this.firstName + " " + this.lastName
+            }
+        }
+    })
+</script>
+</body>
+</html>

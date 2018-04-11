@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>方法</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{fullName}}
+    {{age}}
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            firstName: "Dell",
+            lastName: "Lee",
+            fullName: "Dell Lee",
+            age: 28
+        },
+        /*
+        监听器相当于手工实现了computed类似的缓存效果
+        但是watch的逻辑比起computed复杂了很多
+        所以当methods、watch、computed都能实现同一个功能时，优先使用computed
+         */
+        watch: {
+            firstName: function () {
+                console.log("计算了一次")
+                this.fullName = this.firstName + " " + this.lastName
+            },
+            lastName: function () {
+                console.log("计算了一次")
+                this.fullName = this.firstName + " " + this.lastName
+            }
+        }
+    })
+</script>
+</body>
+</html>
