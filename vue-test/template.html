@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<!--
+    注意：插值表达式或v-x的值都是js表达式，输出的是js表达式的值
+-->
+<div id="app">
+    <!--插值表达式，作用类似于v-text-->
+    <div>{{name + ' Lee'}}</div>
+    <!--v-text将innerText的值和data中的数据进行绑定-->
+    <div v-text="name + ' Lee'"></div>
+    <!--v-html将innerHTML的值和data中的数据进行绑定-->
+    <div v-html="htmlName"></div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            name: "Dell",
+            htmlName: "<h1>Dell</h1>"
+        }
+    })
+</script>
+</body>
+</html>
