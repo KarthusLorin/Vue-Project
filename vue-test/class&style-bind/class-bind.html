@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的class绑定</title>
+    <script src="../vue.js"></script>
+    <style>
+        .activated {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!--
+        class的对象绑定 :class="{activated: isActivated}"
+        class中的activated显不显示取决于isActivated
+        如果是多个class的控制，可以这样写
+        :class = {activated: isActivated, text-danger: hasError}
+    -->
+    <div @click="handleDivClick" :class="{activated: isActivated}">Hello World</div>
+    <!--
+        class的数组绑定 :class="[activated]"
+        class中的类取决于activated的值
+        如果是多个class的控制，可以这样写
+        :class = [activated, activatedOne]
+        当然，可以通过给activated赋值类似于"activated text-danger"的值来控制多个class
+    -->
+    <div @click="handleDivClick2" :class="[activated]">Hello World</div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            isActivated: false,
+            activated: ""
+        },
+        methods: {
+            handleDivClick: function () {
+                this.isActivated = !this.isActivated;
+            },
+            handleDivClick2: function () {
+                this.activated = this.activated === "activated" ? "" : "activated"
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的style绑定</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--
+            style的对象绑定 :style="styleObj"
+            style值取决于styleObj，在styleObj中可以写各种css属性
+        -->
+        <div :style="styleObj" @click="handleDivClick">Hello World</div>
+        <!--
+            style的数组绑定 :style="[styleObj]"
+            styleObj的写法和对象绑定类似，只需要在styleObj中写各种css属性即可
+            值得注意的是，数组绑定可以将多个样式对象应用到同一个元素上，即：
+            :style="[styleObj, {fontSize: '20px'}]"
+        -->
+        <div :style="[styleObj]" @click="handleDivClick">Hello World</div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                styleObj: {
+                    color: "black"
+                }
+            },
+            methods: {
+                handleDivClick: function () {
+                    this.styleObj.color = this.styleObj.color === "black" ? "red" : "black"
+                }
+            }
+        })
+    </script>
+</body>
+</html>
