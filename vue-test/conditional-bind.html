@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的条件渲染</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--
+        v-if和v-show都可以控制模板标签是否显示，但是：
+        v-if为false时，直接不渲染该标签
+        而v-show其实只是隐藏了该标签，dom依然存在
+        当经常需要修改dom的隐藏显示时，用v-show性能更好
+    -->
+    <div v-if="show" data-test="v-if">{{message}}</div>
+    <div v-show="show" data-test="v-show">{{message}}</div>
+    <!--
+        当一个v-if指令想要切换多个元素的隐藏和显示呢？可以采用template
+        template相当于一个不可见的包裹元素，页面进行渲染的时候，只会对其内部的dom进行渲染，而不会渲染template
+        所以，可以使用template包裹多个dom进行v-if的隐藏和显示。
+    -->
+    <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    <!--
+        v-if和v-else的关系和if-else的关系一样
+        值得注意的一点是，v-else必须紧贴v-if，否则会报错
+        比如：
+        <div v-else>message3</div>      // 没有v-if
+        或者
+        <div v-if="show">{{message2}}</div>
+        <span>我是来捣乱的</span>        // 没有紧贴
+        <div v-else>message3</div>
+        这两种情况下，都会报错
+    -->
+    <div v-if="show">{{message2}}</div>
+    <div v-else>message3</div>
+    <!--
+        v-else-if 类似于else if，充当v-if的else-if块，可以连续使用
+        注意：类似于v-else，v-else-if也必须紧跟在v-if或者v-else-if的元素之后
+    -->
+    <div v-if="message3 === 'a'">This is A</div>
+    <div v-else-if="message3 === 'b'">This is B</div>
+    <div v-else>This is others</div>
+    <!--
+        这种写法会导致修改了show的值后，只对input之前的文字进行了切换，而input不变的情况
+        因为vue在渲染页面的时候，会尽量复用页面上dom
+        因为input标签没变，所以复用
+    -->
+    <div v-if="show">
+        用户名：<input />
+    </div>
+    <div v-else>
+        邮箱名：<input />
+    </div>
+    <!--
+        给dom加上key值之后，它就变成了独一无二的dom
+        vue对比前后的dom，发现key值不同，无法复用dom，进行了dom替换
+        所以，解决了之前的bug
+    -->
+    <div v-if="show">
+        用户名：<input key="username"/>
+    </div>
+    <div v-else>
+        邮箱名：<input key="email"/>
+    </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            show: false,
+            message: "message",
+            message2: "message2",
+            message3: "b"
+        }
+    })
+</script>
+</body>
+</html>
