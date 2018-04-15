@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--
+        v-for指令根据一组数据的选项列表进行渲染，v-for指令需要使用item in items形式的特殊语法。
+        在v-for中，还支持可选的第二参数表示当前项的索引：(item,index) in items
+        同时，可以使用item of items的语法代替item in items
+
+        v-for渲染元素的时，会不更新相同元素，但是这种模式只适用于不依赖子组件状态或临时DOM状态 (例如：表单输入值) 的列表渲染输出
+        比如之前v-if碰到的bug
+        为了解决该问题，为每个节点添加唯一的key属性可以使得该节点独一无二
+        建议尽可能在使用v-for时提供key
+
+        数组更新检测方面的问题
+        注意：如果我要将第三个数据改为notOk，一般来说，会想到直接输入：vm.list[2] = {id:"00003",text:"notOk"}
+        但是，这种方法只改变了数据而不能改变页面
+        因为这种改变是改变了数组的引用的值，新的引用对象vue并不处理，所以对象没有setter和getter的，也就不会跟页面做绑定
+        改变数据同时改变页面的方法有两种：
+        一：使用Vue支持的七个数组方法改变数组
+        七个方法分别是：
+        push、pop、shift、unshift、splice、sort、reverse
+        二：直接改变数据的引用地址
+        输入：
+        vm.list = [{
+            id: "000001",
+            text: "hello"
+        },{
+            id: "000002",
+            text: "world"
+        },{
+            id: "000003",
+            text: "notOk"
+        }]
+
+
+    -->
+    <div v-for="(item,index) in list"
+         :key="item.id">
+        {{item.text}} ----- {{index}}
+    </div>
+    <!--
+        值得一提的是，可以使用v-for来遍历对象属性
+        此时，有两个可选参数，第一个可选参数是键值，第二个可选参数是索引
+
+        注意：通过vm.userInfo.address添加新的对象属性并不能触发响应式系统
+        因为，Vue不能检测对象属性的添加或删除
+        此时，可以通过改变vm.userInfo来改变它的引用地址来触发响应式系统
+        当然，还有一种方法也可以实现该功能
+        Vue.set(vm.userInfo, 'address', '杭州')
+        Vue.set方法可以为对象添加新的响应式属性
+        值得一提的是：Vue.set还有一个别名vm.$set
+        当需要赋多个属性的时候，使用Object.assign()或_.extend()
+        其实这两种方法是合并多个对象
+        下面的方法是对这两个属性创建一个新的对象，然后与vm.userInfo进行合并
+        vm.userInfo = Object.assign({}, vm.userInfo, {
+            address: "hanghzou",
+            height: "176cm"
+        })
+    -->
+    <div v-for="(item, key, index) in userInfo">
+        {{item}} --- {{key}} --- {{index}}
+    </div>
+
+    <!--
+        注意：v-for的优先级比v-if更高，这意味着：
+        v-if将分别重复允许于每个v-for循环中，所以可以使用v-if为满足条件的项渲染节点
+    -->
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list: [{
+                id: "000001",
+                text: "hello"
+            },{
+                id: "000002",
+                text: "world"
+            },{
+                id: "000003",
+                text: "ok"
+            }],
+            userInfo: {
+                name: "Dell",
+                age: 28,
+                gender: "male",
+                salary: "secret"
+            }
+        }
+    })
+</script>
+</body>
+</html>
