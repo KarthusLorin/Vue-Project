@@ -51,15 +51,20 @@
         注意：通过vm.userInfo.address添加新的对象属性并不能触发响应式系统
         因为，Vue不能检测对象属性的添加或删除
         此时，可以通过改变vm.userInfo来改变它的引用地址来触发响应式系统
+
         当然，还有一种方法也可以实现该功能
-        Vue.set(vm.userInfo, 'address', '杭州')
+        Vue.set(vm.userInfo, 'address', 'hangzhou')
         Vue.set方法可以为对象添加新的响应式属性
         值得一提的是：Vue.set还有一个别名vm.$set
+        vm.$set(vm.userInfo, 'address', 'hangzhou')的功能和之前一样
+        同时，Vue.set方法还可以解决之前通过数组索引改变数组引用不触发响应式系统的问题
+        Vue.set(vm.list, 2, {id:"00003",text:"notOk"})
+
         当需要赋多个属性的时候，使用Object.assign()或_.extend()
         其实这两种方法是合并多个对象
         下面的方法是对这两个属性创建一个新的对象，然后与vm.userInfo进行合并
         vm.userInfo = Object.assign({}, vm.userInfo, {
-            address: "hanghzou",
+            address: "hangzhou",
             height: "176cm"
         })
     -->
@@ -71,6 +76,13 @@
         注意：v-for的优先级比v-if更高，这意味着：
         v-if将分别重复允许于每个v-for循环中，所以可以使用v-if为满足条件的项渲染节点
     -->
+
+    <!--
+        总结：有三种方法可以更改data中的数组并触发响应式
+        1.直接修改数组的引用对象（修改数组的引用对象地址不能触发响应式）
+        2.通过七种变异数组方法操作数组
+        3.通过Vue.set（vm.$set）修改数组
+    -->
 </div>
 
 <script>
@@ -80,10 +92,10 @@
             list: [{
                 id: "000001",
                 text: "hello"
-            },{
+            }, {
                 id: "000002",
                 text: "world"
-            },{
+            }, {
                 id: "000003",
                 text: "ok"
             }],
