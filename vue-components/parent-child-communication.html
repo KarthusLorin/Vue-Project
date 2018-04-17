@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件传值</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        count属性加上冒号则传递的是一个数字0，不加冒号传递的是一个字符串'0'
+        因为，加上冒号，代表的是v-bind的缩写，而v-bind中包含的是js表达式
+
+        在Vue中，父组件向子组件传值都是以属性的形式来传递的
+    -->
+    <counter :count="3" @inc="handleIncrease"></counter>
+    <counter :count="2" @inc="handleIncrease"></counter>
+    <div>{{total}}</div>
+</div>
+
+<script>
+    var counter = {
+        /*
+            子组件通过props这个数组获取父组件传过来的属性
+            传过来的属性以排列在props这个数组中
+            当然，props也可以是对象形式，如：
+            props: {
+                childMsg: String    // 这种方式的优点是可以指定收到参数的值，类型不对，会警告
+            }
+            当然，还有更牛b的形式，如：
+            props: {
+                childMsg: {
+                    type: String,
+                    default: 'aaa'  // 这种方式的优点是可以设定默认值
+                }
+            }
+            注意：子组件获取的数组value值要和父组件的属性值对应
+         */
+        props: ['count'],
+        template: '<div @click="handleClick">{{number}}</div>',
+        data: function () {
+            return {
+                /*
+                    如果想要使用props中的值，和调用data中的值一样的方法，即：this.value
+                */
+                number: this.count
+            }
+        },
+        methods: {
+            handleClick: function () {
+                /*
+                    如果想要实现自增的效果，只需要this.count，这种方法确实可以实现效果
+                    但是，Vue会提示警告
+                    因为，Vue有一个单向数据流的概念，即：
+                    父组件可以向子组件传递参数，子组件也可以任意使用该参数，但是，子组件不能反过来修改父组件的参数
+                    即子组件可以使用内容，但是，不能修改父组件传递过来的内容
+                    因为如果可以双向传递的话，子组件之间可以相互影响，会极大的增加耦合度
+                 */
+                this.number = this.number + 2
+                /*
+                    每次增加2，并将增加的数量当做参数抛出
+
+                    子组件向外抛出事件的时候可以携带参数
+                    如果想要携带多个参数，可以以数组的形式传递，如：
+                    this.$emit('inc', [2,3,4])
+                 */
+                this.$emit('inc', 2)
+            }
+        }
+    }
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            total: 5
+        },
+        components: {
+            counter: counter
+        },
+        methods: {
+            /*
+                父组件捕获的事件含有一个参数，代表着子组件抛出事件时携带的参数
+                此时，step的值为2
+                子组件抛出的是：this.$emit('inc', [2,3,4])
+                则step为[2,3,4]
+             */
+            handleIncrease: function (step) {
+                this.total += step
+            }
+        }
+    })
+</script>
+</body>
+</html>

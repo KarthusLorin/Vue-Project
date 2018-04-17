@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件使用中的细节点</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <table>
+        <tbody>
+            <!--
+                正常思维下，此处应该直接填<row></row>，但是<row>会被当做无效内容，因此会导致错误的渲染结果
+                因为，HTML本身有一些限制，像<ul>、<ol>、<table>、<select>这样的元素中只允许包含特定的元素
+                并且，一些像<option>之类的元素只能出现在某些特定元素的内部
+                为了规避错误的渲染，变通方案是使用is属性
+                <tr is="row"></tr>
+                以上的例子的意思是：虽然使用的是tr（为了满足HTML规范），但是，实际上是<row></row>
+
+                注意：以上的限制当在以下的情况中，将不复存在
+                1. <script type="text/x-template">
+                2. JavaScript内联模板字符串
+                3. .vue组件
+            -->
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+        </tbody>
+    </table>
+    <!--
+        Vue中不推荐操作dom，但是有时候非得操作dom不可
+        而在Vue中，可以使用ref来操作dom
+    -->
+    <div ref="hello"
+         @click="handleDomClick">hello world</div>
+
+    <counter ref="one" @change="handleChange"></counter>
+    <counter ref="two" @change="handleChange"></counter>
+    <div>{{total}}</div>
+
+</div>
+
+<script>
+
+    <!--子组件row-->
+    Vue.component('row', {
+        /*
+            构造 Vue 实例时传入的各种选项大多数都可以在组件里使用。只有一个例外：
+            data 必须是函数
+            如果像根实例一样把data当做对象处理，会报错
+            因为，此时给每个组件实例返回了同一个对象的引用
+            由于这三个组件实例共享了同一个 data 对象，所以不论什么时候，他们的数据都是一样的，显然，这不是我们想要的结果
+            而通过函数返回一个对象的目的就是使得各个组件都有独立的一个值
+         */
+        data: function () {
+            return {
+                content: 'this is content'
+            }
+        },
+        template: '<tr><td>{{content}}</td></tr>'
+    })
+
+    Vue.component('counter', {
+        template: '<div @click="handleClick">{{number}}</div>',
+        data: function () {
+            return {
+                number: 0
+            }
+        },
+        methods: {
+            handleClick: function () {
+                this.number ++
+                this.$emit('change')
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el: '#root',
+        /*
+            根实例可以直接使用data对象
+         */
+        data: {
+            total: 0
+        },
+        methods: {
+            handleDomClick: function () {
+                /*
+                    this.$refs代表Vue实例中所有的引用（ref）
+                    对dom节点定义ref后，this.$refs.ref获取到的是dom节点
+                 */
+                console.log(this.$refs.hello.innerHTML)
+            },
+            handleChange: function () {
+                /*
+                    对组件定义ref后，使用this.$ref.ref获取到的不是dom节点，而是组件实例
+                 */
+                console.log(this.$refs.one)
+                console.log(this.$refs.two)
+                this.total = this.$refs.one.number + this.$refs.two.number
+            }
+        }
+    })
+</script>
+</body>
+</html>
