@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件参数校验与非Props特性</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        非props特性是指在组件上定义了属性，而又没有使用props接受属性
+        此时，子组件内不可使用该属性值，该属性会直接添加到组件的根节点上
+        比如，如果我不适用props接收content属性，则页面上会这样显示：
+        <div id="root">
+            <div content="hell"></div>
+        </div>
+    -->
+    <child content="hell"></child>
+</div>
+
+<script>
+
+    Vue.component('child', {
+        /*
+            props从数组改为对象形式是，作为对象属性的参数可以写为对象形式
+            参数对象含有4个属性，其中，type、required、validator用于参数校验
+            type：设定参数类型，当传入参数类型与type不相符时，会报错
+            required：设定是否必传，当设为true的时候，不传会报错
+            default：设定默认值
+            validator：是一个函数，拥有一个代表传入参数的形参，可以自定义各种校验，当返回为false时，会报错，表示没通过校验
+         */
+        props: {
+            content: {
+                type: String,
+                required: true,
+                default: 'default value',
+                validator: function (value) {
+                    return (value.length < 5)
+                }
+            }
+        },
+        template: '<div>{{content}}</div>'
+    })
+
+    var vm = new Vue({
+        el: '#root'
+    })
+</script>
+</body>
+</html>
