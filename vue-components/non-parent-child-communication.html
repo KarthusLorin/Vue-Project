@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间传值(Bus/总线/发布订阅模式/观察者模式)</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        两个组件不是父子关系，是兄弟关系
+    -->
+    <child content="Dell"></child>
+    <child content="Lee"></child>
+</div>
+
+<script>
+
+    /*
+        在Vue的原型链上创建一个bus属性，使得每个Vue对象都含有bus属性，bus指向同一个Vue实例
+        使用一个空的Vue实例作为事件总线
+     */
+    Vue.prototype.bus = new Vue()
+
+    Vue.component('child', {
+        template: '<div @click="handleClick">{{selfContent}}</div>',
+        props: {
+            content: String
+        },
+        data: function () {
+            return {
+                /*
+                    防止直接修改父组件传过来的content参数，先把content的值赋给selfContent
+                 */
+                selfContent: this.content
+            }
+        },
+        methods: {
+            handleClick: function () {
+                /*
+                    触发组件A中的事件
+                */
+                this.bus.$emit('change', this.selfContent)
+            }
+        },
+        mounted: function () {
+            /*
+                $on负责监听事件
+                在组件B创建的钩子中监听事件
+             */
+            this.bus.$on('change', (msg) => {
+                this.selfContent = msg
+            })
+        }
+    })
+
+    var vm = new Vue({
+        el: '#root'
+    })
+
+</script>
+</body>
+</html>
