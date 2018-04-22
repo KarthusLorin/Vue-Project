@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的插槽</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <single-slot>
+            <p>slot</p>
+        </single-slot>
+        <named-slot>
+            <div class="header" slot="header">header</div>
+            <div class="footer" slot="footer">footer</div>
+        </named-slot>
+    </div>
+
+    <script>
+
+        /*
+            单个插槽（匿名插槽）
+            slot是一个用于放入调用组件时添加的内容片断（html）的标签
+            当调用一个组件时，父组件传入的内容片段都将插入到插槽所在的dom位置，并替换到插槽标签本身
+
+            值得一提的是：插槽内部可以设定默认值，当父组件没有传入内容时，会自动调用slot内的默认内容
+
+         */
+        Vue.component('single-slot', {
+            template: `<div>
+                            <p>hello</p>
+                            <slot>default solt</slot>
+                       </div>`
+        })
+
+        /*
+            具名插槽
+            插槽可以使用一个特殊的特性name来进一步配置如何分发内容。
+            多个插槽可以有不同的名字，具名插槽将分别匹配内容片段中右对应slot特性的元素。
+            比如：父组件调用子组件时传入的某段内容中含有slot="a"，
+            则该段内容将插入到子组件中name对应的插槽中，即：<slot name="a"></slot>
+
+            和单个插槽一样，具名插槽也可以在slot标签中添加内容，用作默认内容
+         */
+
+        Vue.component('named-slot', {
+            template: `<div>
+                            <slot name="header">
+                                <div>default slot</div>
+                            </slot>
+                            <div class="content">Hello</div>
+                            <slot name="footer"></slot>
+                       </div>`
+        })
+
+        var vm = new Vue({
+            el: '#root'
+        })
+
+    </script>
+</body>
+</html>
