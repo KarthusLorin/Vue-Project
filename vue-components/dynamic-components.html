@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        动态组件的意思是，component标签会根据is属性中不同的值，加载不同的组件
+
+        注意：只能在component标签上使用动态组件
+    -->
+
+    <!--
+        正常情况下，切换动态组件需要销毁之前的组件并创建后来在组件
+        v-once指令可以在组件第一次渲染时，把组件放入内存
+        之后每次切换，不用重新创建新的组件，直接从内存中就可以拿出使用该组件
+        当需要经常切换动态组件时，通过v-once可以提升性能
+    -->
+    <component :is="type" v-once></component>
+    <button @click="handleBtnClick">change</button>
+</div>
+
+<script>
+
+    Vue.component('child-one', {
+        template: '<div>child-one</div>'
+    })
+
+    Vue.component('child-two', {
+        template: '<div>child-two</div>'
+    })
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            type: 'child-one'
+        },
+        methods: {
+            handleBtnClick: function () {
+                this.type = this.type === 'child-one' ? 'child-two' : 'child-one'
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
