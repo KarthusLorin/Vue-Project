@@ -24,6 +24,8 @@
             <slot :a></slot>
 
             即，slot-scope中只是一个包含子组件传来的参数的对象，使用obj.子元素需要的数据即可
+
+            当子组件做循环，并且这一部分的dom结构应该由外部传进来，此时就该使用作用域插槽了
         -->
         <template slot-scope="props">
             <li>{{props.item}} - hello</li>
