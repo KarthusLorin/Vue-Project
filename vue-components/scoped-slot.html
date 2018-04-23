@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的作用域插槽</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <child :list="list">
+        <!--
+            作用域插槽是一种特殊类型的插槽，用作一个可重用的模板，来代替已经渲染好的元素
+            在子组件中，只需将数据传递到插槽，就像你将prop传递到组件一样
+            具有slot-scope的template元素必须存在，即，slot-scope只能写在template上
+            slot-scope的值将被用作一个临时变量名，此变量接收从子组件传递过来的prop对象
+
+            使用方法：
+            父元素：
+            <template slot-scope="obj">
+                <li>obj.a</li>
+            </template>
+
+            子元素：
+            <slot :a></slot>
+
+            即，slot-scope中只是一个包含子组件传来的参数的对象，使用obj.子元素需要的数据即可
+        -->
+        <template slot-scope="props">
+            <li>{{props.item}} - hello</li>
+        </template>
+    </child>
+</div>
+
+<script>
+
+    Vue.component('child', {
+        props: ["list"],
+        template: `<div>
+                    <ul>
+                        <slot v-for="item in list"
+                            :item=item>
+                        </slot>
+                    </ul>
+                   </div>`
+    })
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            list: [1, 2, 3, 4]
+        }
+    })
+
+</script>
+</body>
+</html>
