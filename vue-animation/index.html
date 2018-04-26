@@ -4,12 +4,38 @@
     <meta charset="UTF-8">
     <title>Vue中CSS动画原理</title>
     <script src="./vue.js"></script>
+    <style>
+        .fade-enter,.fade-leave-to {
+            opacity: 0;
+        }
+        .fade-enter-active,.fade-leave-active {
+            transition: opacity 3s;
+        }
+    </style>
 </head>
 <body>
 
 <div id="root">
-    <div v-if="show">hello world</div>
-    <button @click="handleClick"></button>
+    <!--
+        当一个元素被transition包裹之后，Vue会自动分析元素的CSS样式，构建动画效果
+        从无到有时：
+        当动画即将被执行时，它会向内部的div中添加两个class
+        分别是：name-enter，name-enter-active
+        当动画运行到第二帧的时候，去除name-enter，添加name-enter-to
+        当动画运行到结束的一瞬间，去除name-enter-active以及name-enter-to
+
+        从有到无时：
+        当动画即将被执行时，它会向内部的div中添加两个class
+        分别是：name-leave，name-leave-active
+        当动画运行到第二帧的时候，去除name-leave，添加name-leave-to
+        当动画运行到结束的一瞬间，去除name-leave-active以及name-leave-to
+
+        当没有指定transition的name，可以使用v来代替name，即v-enter，v-leave
+    -->
+    <transition name="fade">
+        <div v-if="show">hello world</div>
+    </transition>
+    <button @click="handleClick">切换</button>
 </div>
 
 <script>
@@ -21,7 +47,7 @@
         },
         methods: {
             handleClick: function () {
-
+                this.show = !this.show
             }
         }
     })
