@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中同时使用过渡和动画</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="animate.css">
+    <style>
+        .fade-enter,
+        .fade-leave-to{
+            opacity: 0;
+        }
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        给transition元素添加appear属性并设定appear-active-class的动画类
+        即可在页面刚渲染的时候触发动画效果
+        transition中与此有关的类是fade-appear以及fade-appear-active
+
+        当同时使用transition以及animate时，会产生动画时间不一致的问题
+        此时，需要添加type="transition"，即，以transition的动画时间为准
+        当然，也可以自定义动画时间:duration="5000"，即设置transition效果为5秒
+        :duration也可以进一步的细分，传入一个数组，{enter: 5000, leave:10000}
+        即，入场动画5秒，出厂动画10秒
+    -->
+    <transition name="fade"
+                :duration="{enter: 5000,leave: 10000}"
+                type="transition"
+                appear
+                enter-active-class="animated swing fade-enter-active"
+                leave-active-class="animated shake fade-leave-active"
+                appear-active-class="animated swing"
+    >
+        <div v-if="show">hello world</div>
+    </transition>
+    <button @click="handleClick">切换</button>
+</div>
+
+<script>
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            show: true
+        },
+        methods: {
+            handleClick: function () {
+                this.show = !this.show
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
