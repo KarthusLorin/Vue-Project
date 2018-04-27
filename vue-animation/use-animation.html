@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中使用animate.css库</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="animate.css">
+</head>
+<body>
+
+<div id="root">
+    <!--
+        vue中可以自定义添加的class的名字
+        enter-active-class是进入时添加的
+        leave-active-class是离开时添加的
+        通过这种方式，可以使用animate.css中的动画
+
+        animate.css的使用方式：
+        统一添加animated，第二个class写需要的动画效果的名字
+    -->
+    <transition name="fade"
+                enter-active-class="animated swing"
+                leave-active-class="animated shake"
+    >
+        <div v-if="show">hello world</div>
+    </transition>
+    <button @click="handleClick">切换</button>
+</div>
+
+<script>
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            show: true
+        },
+        methods: {
+            handleClick: function () {
+                this.show = !this.show
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
