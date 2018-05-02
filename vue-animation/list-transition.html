@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的列表过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        .v-enter, .v-leave-to {
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <!--
+        在列表循环外层添加transition-group，
+        相当于在每个div外层添加一个transition标签
+    -->
+    <transition-group>
+        <div v-for="(item, index) in list" :key="item.id">
+            {{item.title}}
+        </div>
+    </transition-group>
+    <button @click="handleBtnClick">Add</button>
+</div>
+
+<script>
+    let count = 0
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            list: []
+        },
+        methods: {
+            handleBtnClick: function () {
+                this.list.push({
+                    id: count++,
+                    title: 'hello world'
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
