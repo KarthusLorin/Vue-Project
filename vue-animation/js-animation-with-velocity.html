@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的JS动画与velocity.js</title>
+    <script src="./vue.js"></script>
+    <script src="./velocity.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        transition元素拥有数个事件钩子
+
+        元素进入事件：
+        1.before-enter事件，元素出现之时触发
+        2.enter事件，元素进入过程中触发
+        3.after-enter事件，元素进入完成后触发
+
+        元素离开事件：
+        1.before-leave事件，元素离开之时触发
+        2.leave事件，元素离开过程中触发
+        3.after-leave事件，元素离开完成后触发
+
+        el参数，代表着transition元素包裹的dom元素
+        done参数，代表着回调函数
+    -->
+    <transition name="fade"
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnter"
+                @after-enter="handleAfterEnter"
+    >
+        <div v-show="show">Hello World</div>
+    </transition>
+    <button @click="handleClick">toggle</button>
+</div>
+
+<script>
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            show: true
+        },
+        methods: {
+            handleClick: function () {
+                this.show = !this.show
+            },
+            handleBeforeEnter: function (el) {
+                el.style.opacity = '0'
+            },
+            handleEnter: function (el, done) {
+                Velocity(el, {
+                    opacity: 1
+                }, {duration: 1000,
+                    complete: done
+                })
+            },
+            handleAfterEnter: function (el) {
+                console.log("动画结束")
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中多个元素或组件的过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        .v-enter, .v-leave-to {
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+
+<div id="root">
+    <!--
+        如果不加上key，则不会出现动画效果
+        因为，vue会尽量复用dom，相当于仅仅只改变了text
+
+        transition元素含有mode配置项，用于配置多个组件或元素的先后次序
+        in-out代表先进行显示的动画，再进行隐藏的动画
+        out-in代表县进行隐藏的动画，再进行显示的动画
+    -->
+    <transition mode="out-in">
+        <component :is="type"></component>
+    </transition>
+    <button @click="handleClick">toggle</button>
+</div>
+
+<script>
+
+    Vue.component('child', {
+        template: '<div>child</div>'
+    })
+
+    Vue.component('child-one', {
+        template: '<div>childe-one</div>'
+    })
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            type: 'child'
+        },
+        methods: {
+            handleClick: function () {
+                this.type = this.type === 'child' ? 'child-one' : 'child'
+            }
+        }
+    })
+</script>
+</body>
+</html>
