@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的动画封装</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <fade :show="show">
+        <div>hello world</div>
+    </fade>
+    <fade :show="show">
+        <h1>hello world</h1>
+    </fade>
+    <button @click="handleBtnClick">toggle</button>
+</div>
+
+<script>
+
+    /*
+        封装组件只需要使用插槽导入内容即可
+        通过methods调用方法，产生动画效果
+        所有效果全部写在组件中，外部不影响内部
+     */
+    Vue.component('fade', {
+        props: ['show'],
+        template: `
+            <transition @before-enter="handleBeforeEnter"
+                @enter="handleEnter">
+                <slot v-if="show"></slot>
+            </transition>
+        `,
+        methods: {
+            handleBeforeEnter: function (el) {
+                el.style.color = 'red'
+            },
+            handleEnter: function (el, done) {
+                setTimeout(() => {
+                    el.style.color = 'green'
+                    done()
+                }, 2000)
+            }
+        }
+    })
+
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            show: false
+        },
+        methods: {
+            handleBtnClick: function () {
+                this.show = !this.show
+            }
+        }
+    })
+</script>
+</body>
+</html>
