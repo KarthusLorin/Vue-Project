@@ -6,9 +6,12 @@ import router from './router'
 // 因为在移动端中，点击事件有300ms的延迟，影响用户体验，采用fastclick可以去除该延迟
 import fastClick from 'fastclick'
 // 初始化css
-import './assets/styles/reset.css'
+// styles是assets下styles文件夹的别名
+import 'styles/reset.css'
 // 解决1px的问题
-import './assets/styles/border.css'
+import 'styles/border.css'
+// iconfont
+import 'styles/iconfont.css'
 
 Vue.config.productionTip = false
 // 在body上绑定fastClick
