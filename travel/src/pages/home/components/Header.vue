@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  // 在CSS中引入webpack中的简写，需要在简写前加一个~，告诉她这是个简写
   @import "~styles/varibles.styl"
   .header
     display flex
