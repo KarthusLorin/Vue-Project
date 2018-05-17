@@ -5,11 +5,11 @@
       <!--添加border-bottom即可解决一像素边框问题-->
       <li
         class="item border-bottom"
-        v-for="item in recommendList"
+        v-for="item in list"
         :key="item.id"
       >
         <div class="item-img-wrapper">
-          <img class="item-img" :src="item.imgUrl" />
+          <img class="item-img" :src="item.imgUrl"/>
         </div>
         <div class="item-info">
           <p class="item-title">{{item.title}}</p>
@@ -21,46 +21,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'HomeWeekend',
-    data () {
-      return {
-        recommendList: [{
-          id: '0001',
-          imgUrl: 'http://img1.qunarzz.com/sight/source/1505/7f/fa4eb0ca72409d.jpg_r_640x214_2f2a860e.jpg',
-          title: '大连圣亚海洋世界',
-          desc: '浪漫大连首站，浪漫的海洋主题乐园'
-        }, {
-          id: '0002',
-          imgUrl: 'http://img1.qunarzz.com/sight/source/1505/7f/fa4eb0ca72409d.jpg_r_640x214_2f2a860e.jpg',
-          title: '大连圣亚海洋世界',
-          desc: '浪漫大连首站，浪漫的海洋主题乐园'
-        }, {
-          id: '0003',
-          imgUrl: 'http://img1.qunarzz.com/sight/source/1505/7f/fa4eb0ca72409d.jpg_r_640x214_2f2a860e.jpg',
-          title: '大连圣亚海洋世界',
-          desc: '浪漫大连首站，浪漫的海洋主题乐园'
-        }, {
-          id: '0004',
-          imgUrl: 'http://img1.qunarzz.com/sight/source/1505/7f/fa4eb0ca72409d.jpg_r_640x214_2f2a860e.jpg',
-          title: '大连圣亚海洋世界',
-          desc: '浪漫大连首站，浪漫的海洋主题乐园'
-        }]
-      }
-    }
+export default {
+  name: 'HomeWeekend',
+  props: {
+    list: Array
   }
+}
 </script>
 
 <style lang="stylus" scoped>
   @import '~styles/mixins.styl'
   .title
-    margin-top: .2rem
     line-height: .8rem
     background: #eee
     text-indent: .2rem
   .item-img-wrapper
     height: 0
-    padding-bottom: 33.9%
+    padding-bottom: 37.09%
     overflow: hidden
     .item-img
       width: 100%
