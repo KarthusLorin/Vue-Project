@@ -9,16 +9,16 @@
 
 <script>
 export default {
-  name: "CityHeader"
+  name: 'CityHeader'
 }
 </script>
 
 <style lang="stylus" scoped>
   @import '~styles/varibles.styl'
   .header
-    height: .86rem
+    height: $headerHeight
     line-height: $headerHeight
-    text-align: $headerHeight
+    text-align: center
     color: #fff
     background: $bgColor
     overflow: hidden
