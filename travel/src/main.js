@@ -7,6 +7,8 @@ import router from './router'
 import fastClick from 'fastclick'
 // 轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vuex
+import store from './store'
 // 初始化css
 // styles是assets下styles文件夹的别名
 import 'styles/reset.css'
@@ -27,6 +29,7 @@ Vue.use(VueAwesomeSwiper)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
