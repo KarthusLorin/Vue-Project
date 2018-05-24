@@ -15,6 +15,7 @@ import HomeIcons from './components/Icons'
 import HomeRecommend from './components/Recommend'
 import HomeWeekend from './components/Weekend'
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Home',
@@ -27,15 +28,19 @@ export default {
   },
   data () {
     return {
+      lastCity: '',
       swiperList: [],
       iconList: [],
       recommendList: [],
       weekendList: []
     }
   },
+  computed: {
+    ...mapState(['city'])
+  },
   methods: {
     getHomeInfo () {
-      axios.get('/api/index.json')
+      axios.get('/api/index.json?city=' + this.city)
         .then(this.getHomeInfoSucc)
     },
     getHomeInfoSucc (res) {
@@ -50,7 +55,17 @@ export default {
     }
   },
   mounted () {
+    // this.lastCity 是临时缓冲变量，用于和this.city比较确认是否修改城市
+    this.lastCity = this.city
     this.getHomeInfo()
+  },
+  // keep-alive特有的生命周期函数，每次进入该页面触发
+  activated () {
+    // 城市有变化的时候，重新请求
+    if (this.lastCity !== this.city) {
+      this.lastCity = this.city
+      this.getHomeInfo()
+    }
   }
 }
 </script>
