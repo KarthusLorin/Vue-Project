@@ -3,10 +3,14 @@
     <div class="title">热销推荐</div>
     <ul>
       <!--添加border-bottom即可解决一像素边框问题-->
-      <li
+      <!--直接在ul中添加a标签会有问题，所以需要将tag改为li-->
+      <!--:to用于动态绑定路由地址-->
+      <router-link
+        tag="li"
         class="item border-bottom"
         v-for="item in list"
         :key="item.id"
+        :to="'/detail/' + item.id"
       >
         <div class="item-img-wrapper">
           <img class="item-img" :src="item.imgUrl" />
@@ -16,7 +20,7 @@
           <p class="item-desc">{{item.desc}}</p>
           <button class="item-button">查看详情</button>
         </div>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
