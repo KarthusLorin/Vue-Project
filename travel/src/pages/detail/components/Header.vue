@@ -42,8 +42,14 @@ export default {
       }
     }
   },
-  mounted () {
+  activated () {
+    // 该事件绑定在全局（window），只要绑定了，就一直存在，哪怕切页面
     window.addEventListener('scroll', this.handleScroll)
+  },
+  // 被销毁前
+  deactivated () {
+    // 被销毁前，解绑全局事件
+    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>
