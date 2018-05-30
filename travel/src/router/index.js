@@ -22,5 +22,9 @@ export default new Router({
       name: 'Detail',
       component: Detail
     }
-  ]
+  ],
+  // 跳转页面重置滚动条
+  scrollBehavior (to, from, savedPosition) {
+    return {x: 0, Y: 0}
+  }
 })
