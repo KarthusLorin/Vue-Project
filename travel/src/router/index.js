@@ -25,6 +25,6 @@ export default new Router({
   ],
   // 跳转页面重置滚动条
   scrollBehavior (to, from, savedPosition) {
-    return {x: 0, Y: 0}
+    return { x: 0, y: 0 }
   }
 })
