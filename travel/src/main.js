@@ -7,6 +7,8 @@ import router from './router'
 import fastClick from 'fastclick'
 // 轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+// 解决兼容性问题
+import 'babel-polyfill'
 // Vuex
 import store from './store'
 // 初始化css

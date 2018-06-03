@@ -10,6 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // 在开发模式中，访问/api会自动转发到目标地址上
     proxyTable: {
       '/api': {
         target: 'http://localhost:8080',
